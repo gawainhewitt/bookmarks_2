@@ -21,3 +21,15 @@ I'd like to see a list of my bookmarks
 4. Run the query we have saved in the file 01_create_bookmarks_table.sql
 
 * To view table do. SELECT * FROM bookmarks;
+
+------------------
+
+## testing environment setup
+```
+$> psql
+admin=# CREATE DATABASE "bookmark_manager_test";
+admin=# CREATE TABLE bookmarks(id SERIAL PRIMARY KEY, url VARCHAR(60));
+```
+
+https://github.com/makersacademy/course/blob/main/bookmark_manager/walkthroughs/09.md
+
