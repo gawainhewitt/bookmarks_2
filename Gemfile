@@ -10,6 +10,7 @@ gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'webrick'
 gem 'launchy'
+gem 'pg'
 
 group :test do
   gem 'capybara'

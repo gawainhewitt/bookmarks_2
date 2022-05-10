@@ -4,12 +4,15 @@ describe Bookmark do
   describe '#.all' do
     it 'returns a list of bookmarks' do
       bookmarks = Bookmark.all
-      expect(bookmarks).to include("http://www.makersacademy.com")
-      expect(bookmarks).to include("http://www.bbc.com")
-      expect(bookmarks).to include("http://www.orangepippintrees.co.uk")
+      expect(bookmarks).to include("http://www.makersacademy.com/")
+      expect(bookmarks).to include("http://www.destroyallsoftware.com")
+      expect(bookmarks).to include("http://www.google.com/")
     end
+
   end
 end
 
-# Test drive a refactor of the code to use a Model, that returns the list of bookmarks.
-# You'll probably want to create a Bookmark model that responds to the class method .all with a hard-coded array of Bookmark instances.
+# Test drive an update to the .all method of your Bookmark model, to do the following:
+#   Use PG to connect to the PostgreSQL bookmark_manager database.
+#   Retrieve all bookmark records from the bookmarks table.
+#   Extract the URLs from the database response.
