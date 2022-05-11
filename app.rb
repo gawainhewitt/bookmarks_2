@@ -7,8 +7,13 @@ class BookmarkManager < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  get '/' do
-    erb :'bookmarks/index'
+  get '/bookmarks/create' do
+    erb :'bookmarks/create'
+  end
+
+  post '/bookmarks' do
+    Bookmark.create(params[:bookmark])
+    redirect '/bookmarks'
   end
 
   get '/bookmarks' do
