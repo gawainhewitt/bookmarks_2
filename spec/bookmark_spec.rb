@@ -1,27 +1,38 @@
 require 'bookmark'
+require 'database_helpers'
 
 describe Bookmark do
   describe '#.all' do
     it 'returns a list of bookmarks' do
-      Bookmark.create('http://www.makersacademy.com/')
-      Bookmark.create('http://www.destroyallsoftware.com')
-      Bookmark.create('http://www.google.com/')
+
+      bookmark = Bookmark.create(url: 'http://www.makersacademy.com/', title: 'Makers')
+      Bookmark.create(url: 'http://www.destroyallsoftware.com', title: 'Destroy Software')
+      Bookmark.create(url: 'http://www.google.com/', title: 'Google')
       
       bookmarks = Bookmark.all
 
-      expect(bookmarks).to include("http://www.makersacademy.com/")
-      expect(bookmarks).to include("http://www.destroyallsoftware.com")
-      expect(bookmarks).to include("http://www.google.com/")
+      # expect(bookmarks).to include("http://www.makersacademy.com/")
+      # expect(bookmarks).to include("http://www.destroyallsoftware.com")
+      # expect(bookmarks).to include("http://www.google.com/")
+      expect(bookmarks.length).to eq 3
+      expect(bookmarks.first).to be_a Bookmark
+      expect(bookmarks.first.id).to eq bookmark.id
+      expect(bookmarks.first.title).to eq 'Makers'
+      expect(bookmarks.first.url).to eq 'http://www.makersacademy.com/'
     end
   end
 
   describe '#.create' do
     it 'creates a new bookmark' do
-      Bookmark.create("http://www.reddit.com/")
+      bookmark = Bookmark.create(url: "http://www.reddit.com/", title: 'Reddit')
+      persisted_data = persisted_data(id: bookmark.id)
 
-      bookmarks = Bookmark.all
-
-      expect(bookmarks).to include("http://www.reddit.com/")
+      # expect(bookmark['url']).to eq "http://www.reddit.com/"
+      # expect(bookmark['title']).to eq 'Reddit'
+      expect(bookmark).to be_a Bookmark
+      expect(bookmark.id).to eq persisted_data['id']
+      expect(bookmark.title).to eq 'Reddit'
+      expect(bookmark.url).to eq 'http://www.reddit.com/'
     end
   end
 end
