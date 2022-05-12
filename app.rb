@@ -3,12 +3,23 @@ require 'sinatra/reloader'
 require_relative 'lib/bookmark'
 
 class BookmarkManager < Sinatra::Base
+  set :method_override, true # make a note about this and corrosponding in the erb file
   configure :development do
     register Sinatra::Reloader
   end
 
   get '/bookmarks/create' do
     erb :'bookmarks/create'
+  end
+
+  get '/bookmarks/delete' do
+
+    erb :'bookmarks/delete'
+  end
+
+  delete '/bookmarks' do
+    Bookmark.delete(title: params[:title])
+    redirect '/bookmarks'
   end
 
   post '/bookmarks' do

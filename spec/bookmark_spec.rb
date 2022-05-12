@@ -35,6 +35,10 @@ describe Bookmark do
       expect(bookmark.url).to eq 'http://www.reddit.com/'
     end
   end
+
+  desribe '#.delete' do
+    
+  end
 end
 
 # Test drive an update to the .all method of your Bookmark model, to do the following:
