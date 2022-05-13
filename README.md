@@ -38,11 +38,7 @@ admin=# CREATE DATABASE "bookmark_manager_test";
 admin=# CREATE TABLE bookmarks(id SERIAL PRIMARY KEY, url VARCHAR(60));
 ```
 
-https://github.com/makersacademy/course/blob/main/bookmark_manager/walkthroughs/09.md
-
-
-
-![Bookmark Manager domain model](./public/images/bookmark_manager_1.png)
+Add bookmark user story
 
 
 ```mermaid
@@ -58,3 +54,7 @@ https://github.com/makersacademy/course/blob/main/bookmark_manager/walkthroughs/
     Displays content on bookmarks page: 5: view
 
 ```
+
+
+
+
