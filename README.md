@@ -40,3 +40,21 @@ admin=# CREATE TABLE bookmarks(id SERIAL PRIMARY KEY, url VARCHAR(60));
 
 https://github.com/makersacademy/course/blob/main/bookmark_manager/walkthroughs/09.md
 
+
+
+![Bookmark Manager domain model](./public/images/bookmark_manager_1.png)
+
+
+```mermaid
+    journey
+      title Add bookmark
+    section Visit bookmarks page
+    visit page: 5: User
+    click add bookmark button: 5: User
+    Loads new page "add": 5: view
+    Fill in new url on form: 5: User
+    Click submit button: 5: User
+    Loads bookmark page again: 5: view
+    Displays content on bookmarks page: 5: view
+
+```
