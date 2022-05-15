@@ -2,7 +2,7 @@ require 'sinatra/base'
 require 'sinatra/reloader'
 require 'sinatra/flash'
 require_relative 'lib/bookmark'
-# require_relative 'lib/comment'
+require_relative 'lib/comment'
 require './database_connection_setup'
 require 'uri'
 
