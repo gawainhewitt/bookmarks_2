@@ -1,4 +1,6 @@
 require 'pg'
+require_relative 'database_connection'
+require_relative './comment.rb'
 
 class Bookmark
 
@@ -11,28 +13,26 @@ class Bookmark
   end
 
   def self.all
-    connection = connect
-    result = connection.exec("SELECT * FROM bookmarks;")
+    result = DatabaseConnection.query("SELECT * FROM bookmarks")
     result.map do |bookmark|
       Bookmark.new(id: bookmark['id'], title: bookmark['title'], url: bookmark['url'])
     end
   end
 
   def self.create(url:, title:)
-    connection = connect
-    connection.prepare('statement1',"INSERT INTO bookmarks (url, title) VALUES( $1 ,$2) RETURNING id, url, title;")
-    result = connection.exec_prepared('statement1', ["#{url}", "#{title}"])
+    return false unless is_url?(url)
+    result = DatabaseConnection.query(
+      "INSERT INTO bookmarks (url, title) VALUES($1, $2) RETURNING id, title, url;", [url, title]
+    )
     Bookmark.new(id: result[0]['id'], title: result[0]['title'], url: result[0]['url'])
   end
 
   def self.delete(id:)
-    connection = connect
-    connection.exec("DELETE FROM bookmarks WHERE id = '#{id}';")
+    DatabaseConnection.query("DELETE FROM bookmarks WHERE id = '#{id}';")
   end
 
   def self.update(url:, title:, id:)
-    connection = connect
-    result = connection.exec_params(
+    result = DatabaseConnection.query(
       "UPDATE bookmarks SET url = $1, title = $2 WHERE id = $3 RETURNING id, url, title;",
       [ url, title, id ]
     )
@@ -40,18 +40,24 @@ class Bookmark
   end
 
   def self.find(id:)
-    connection = connect
-    result = connection.exec_params("SELECT * FROM bookmarks WHERE id = $1;", [id])
+    result = DatabaseConnection.query("SELECT * FROM bookmarks WHERE id = $1;", [id])
     Bookmark.new(id: result[0]['id'], title: result[0]['title'], url: result[0]['url'])
+  end
+
+  def comments
+    DatabaseConnection.query(
+      "SELECT * FROM comments WHERE bookmark_id = $1;",
+      [id]
+    )
+  end
+
+  def comments(comment_class = Comment)
+    comment_class.where(bookmark_id: id)
   end
 
   private
 
-  def self.connect
-    if ENV['ENVIRONMENT'] == 'test'
-      connection = PG.connect(dbname: 'bookmark_manager_test')
-    else
-      connection = PG.connect(dbname: 'bookmark_manager')
-    end
+  def self.is_url?(url)
+    url =~ /\A#{URI::regexp(['http', 'https'])}\z/
   end
 end
